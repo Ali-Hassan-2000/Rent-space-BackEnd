@@ -2,6 +2,10 @@ const Apartment = require('../models/apartment.js');
 const express = require('express');
 const router = express.Router();
 
+// basic code for apartments
+
+
+// add verify for owner only (token) to create, add cloudinary, handel the booking calander
 router.post('/', async (req, res) => {
     try {
         const createdApartment = await Apartment.create(req.body);
