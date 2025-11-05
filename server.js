@@ -11,9 +11,9 @@ const logger = require('morgan');
 const PORT = process.env.PORT || 3000;
 
 // Controllers
-const testJwtRouter = require('./controllers/test-jwt');
 const authCtrl = require('./controllers/auth');
 const usersCtrl = require('./controllers/users');
+const apartmentRouter = require('./controllers/apartment.js');
 
 // MiddleWare
 const verifyToken = require('./middleware/verify-token');
@@ -24,17 +24,18 @@ mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:5173' })); //port 5173 for API sorce
 app.use(express.json());
 app.use(logger('dev'));
 
+// home page will be public (change code from line  32-37)
 // Public
 app.use('/auth', authCtrl);
-app.use('/test-jwt', testJwtRouter);
 
 // Protected Routes
 app.use(verifyToken);
 app.use('/users', usersCtrl);
+app.use('/apartments', apartmentRouter);
 
 app.listen(PORT, () => {
   console.log('The express app is ready!');

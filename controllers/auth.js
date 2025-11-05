@@ -15,8 +15,8 @@ router.post('/sign-up', async (req, res) => {
       });
     }
 
-    const hashedPassword = bcrypt.hashSync(req.body.password, 10);
-    req.body.hashedPassword = hashedPassword;
+    const hashedPassword = bcrypt.hashSync(req.body.password, 12);
+    req.body.password = hashedPassword;
 
     const newUser = await User.create(req.body);
 
@@ -42,7 +42,7 @@ router.post('/sign-in', async (req, res) => {
       return res.status(401).json({ err: 'Username or Password is invalid' });
     }
 
-    const validPassword = bcrypt.compareSync(req.body.password, userInDatabase.hashedPassword);
+    const validPassword = bcrypt.compareSync(req.body.password, userInDatabase.password);
 
     if (!validPassword) {
       return res.status(401).json({ err: 'Username or Password is invalid' });
