@@ -52,6 +52,7 @@ router.get('/:apartmentId', async (req, res) => {
     }
 });
 
+
 router.delete('/:apartmentId', async (req, res) => {
   
     try {
@@ -76,6 +77,7 @@ router.delete('/:apartmentId', async (req, res) => {
     }
 });
 
+// works fine for now
 router.put('/:apartmentId', async (req, res) => {
   try {
         const updatedApartment = await Apartment.findByIdAndUpdate(req.params.apartmentId, req.body, { new: true, runValidators: true } );
