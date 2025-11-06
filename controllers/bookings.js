@@ -34,7 +34,19 @@ const listing = await Listing.findById(listingId);
         ]
     });
     if (overlap) return res.status(400).json({message: "This date range is already booked"})
-  
+    const days =
+      (new Date(endDate).getTime() - new Date(startDate).getTime()) /
+      (1000 * 60 * 60 * 24);
+    const totalPrice = Math.ceil(days) * listing.price;
+    const booking = new Booking({
+        listingId,
+        userId:req.user.id,
+        startDate,
+        endDate,
+        totalPrice
+    })
+    await booking.save()
+    res.status(201).json(booking)
 }
  
 catch (err) {
