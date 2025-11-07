@@ -10,7 +10,7 @@ const cloudinary = require('../config/cloudinary')
 // basic code for apartments
 
 
-//add cloudinary, handel the booking calander
+//handel the booking calander
 router.post('/', authorizeRole('Owner'), upload.array('ApartmentImg'), async (req, res) => {
     try {
 
