@@ -52,6 +52,15 @@ app.get('/apartments/:apartmentId', async (req, res ) =>{
   }
 });
 
+app.use((req, res, next) => {
+  const authHeader = req.headers.authorization || '';
+  if (!authHeader) {
+    return res.redirect(302, '/');
+  } 
+  
+  next();
+});
+
 // Protected Routes
 app.use(verifyToken);
 app.use('/users', usersCtrl);
