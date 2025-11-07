@@ -1,9 +1,11 @@
 const dotenv = require('dotenv');
+const path = require('path') // for photos
 
 dotenv.config();
 const express = require('express');
 
 const app = express();
+
 const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
@@ -28,6 +30,8 @@ mongoose.connection.on('connected', () => {
 app.use(cors({ origin: 'http://localhost:5173' })); //port 5173 for API sorce
 app.use(express.json());
 app.use(logger('dev'));
+
+app.use(express.static(path.join(__dirname, "public"))); // for photos
 
 // home page will be public (change code from line  32-37)
 // Public

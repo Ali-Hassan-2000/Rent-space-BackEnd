@@ -4,12 +4,29 @@ const router = express.Router();
 
 const authorizeRole = require('../middleware/authorize-role.js');
 
+const upload = require('../config/multer')
+const cloudinary = require('../config/cloudinary')
+
 // basic code for apartments
 
 
-// , add cloudinary, handel the booking calander
-router.post('/', authorizeRole('Owner'), async (req, res) => {
+//add cloudinary, handel the booking calander
+router.post('/', authorizeRole('Owner'), upload.array('ApartmentImg'), async (req, res) => {
     try {
+
+        req.body.ApartmentImg = []; 
+        const ApartmenImages = req.files;
+        
+        /* we take the images from the form and store them in ApartmenImages
+        then we push each image in the array and give it (url, image link string) 
+        and (_id, image cloud storage) */
+        ApartmenImages.forEach(file => {
+            req.body.ApartmentImg.push({
+            url: file.path,
+            cloudinary_id: file.filename
+            });
+        }); 
+        
         const createdApartment = await Apartment.create(req.body);
         res.status(201).json(createdApartment);
     } catch (err) {
