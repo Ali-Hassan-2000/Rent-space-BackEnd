@@ -110,7 +110,7 @@ router.delete('/:apartmentId', authorizeRole('Owner'), async (req, res) => {
     }
 });
 
-// works fine for now
+
 router.put('/:apartmentId', authorizeRole('Owner'), upload.array('ApartmentImg'), async (req, res) => {
   try {
 
