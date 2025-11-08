@@ -51,6 +51,7 @@ catch (err) {
     res.status(500).json({message: err.message})
 }
 })
+/* 
 router.delete('/:bookingId',verifyToken, async (req,res) => {
     try{
     const booking = await Booking.findById(req.params.bookingId);
@@ -72,4 +73,5 @@ router.delete('/:bookingId',verifyToken, async (req,res) => {
     res.status(500).json({ message: err.message });
   }
 })
+  */
 module.exports = router;
