@@ -27,7 +27,7 @@ mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
-app.use(cors({ origin: 'http://localhost:5173' })); //port 5173 for API sorce
+app.use(cors({ origin: process.env.CORS_ORIGIN })); //port **** for API sorce
 app.use(express.json());
 app.use(logger('dev'));
 
@@ -47,7 +47,7 @@ app.get('/', async (req, res ) =>{
 });
 
 // no need for the rest
-
+/*
 app.get('/apartments/:apartmentId', async (req, res ) =>{
   try {
     const apt = await Apartment.findById(req.params.apartmentId);
@@ -66,6 +66,7 @@ app.use((req, res, next) => {
   
   next();
 });
+*/
 
 // Protected Routes
 app.use(verifyToken);
