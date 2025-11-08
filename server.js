@@ -37,7 +37,7 @@ app.use(express.static(path.join(__dirname, "public"))); // for photos
 // Public
 app.use('/auth', authCtrl);
 
-app.get('/apartments', async (req, res ) =>{
+app.get('/', async (req, res ) =>{
   try {
     const list = await Apartment.find();
     res.status(200).json(list);
@@ -45,6 +45,8 @@ app.get('/apartments', async (req, res ) =>{
     res.status(500).json({err: err.message });
   }
 });
+
+// no need for the rest
 
 app.get('/apartments/:apartmentId', async (req, res ) =>{
   try {
