@@ -49,7 +49,7 @@ router.post('/', authorizeRole('Owner'), upload.array('ApartmentImg'), async (re
 });
 
 //delete apartment
-router.delete('/:apartmentId', authorizeRole('Owner'), async (req, res) => {
+router.delete('/apartment/:apartmentId', authorizeRole('Owner'), async (req, res) => {
   
     try {
         
@@ -88,7 +88,7 @@ router.delete('/:apartmentId', authorizeRole('Owner'), async (req, res) => {
 });
 
 //update apartment
-router.put('/:apartmentId', authorizeRole('Owner'), upload.array('ApartmentImg'), async (req, res) => {
+router.put('/:apartment/apartmentId', authorizeRole('Owner'), upload.array('ApartmentImg'), async (req, res) => {
   try {
 
         const foundApartment = await Apartment.findById(req.params.apartmentId);
