@@ -180,7 +180,7 @@ router.get('/:apartmentId', async (req, res) => {
 });
 
 // show city page
-router.get('/:city', async (req, res) => {
+router.get('/city/:city', async (req, res) => {
   try {
 
     
