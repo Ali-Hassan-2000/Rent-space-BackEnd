@@ -155,7 +155,7 @@ router.put('/:apartmentId', authorizeRole('Owner'), upload.array('ApartmentImg')
 //-------------Id routes-----------//
 
 // show apartment detail page
-router.get('/:apartmentId', async (req, res) => {
+router.get('/apartment/:apartmentId', async (req, res) => {
   
     try {
         
