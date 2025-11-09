@@ -154,6 +154,7 @@ router.put('/:apartmentId', authorizeRole('Owner'), upload.array('ApartmentImg')
 
 //-------------Id routes-----------//
 
+// show apartment detail page
 router.get('/:apartmentId', async (req, res) => {
   
     try {
@@ -178,6 +179,24 @@ router.get('/:apartmentId', async (req, res) => {
     }
 });
 
+router.get('/:city', async (req, res) => {
+  try {
+
+    
+    const cityApartments = await Apartment.find({ ApartmentCity: req.params.city });
+
+    // this will not happend because in the front end there will be no link if the city 
+    // has no apartment (added for extra control)
+    if (!cityApartments || cityApartments.length === 0) {
+      return res.status(404).json({ message: `No apartments found in ${city}` });
+    }
+
+    res.status(200).json(cityApartments);
+    
+  } catch (error) {
+    res.status(500).json({ err: error.message });
+  }
+});
 
 
 
@@ -187,6 +206,7 @@ router.get('/:apartmentId', async (req, res) => {
 
 //-----------------Booking routes---------------------//
 
+// change route to apartmnet
 router.get('/listing/:listingId/bookedDates', async (req, res)=> {
 try {
 const bookings = await Booking.find({listingId: req.params.listingId});
