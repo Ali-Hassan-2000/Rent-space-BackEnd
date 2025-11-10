@@ -262,11 +262,7 @@ router.get("/user/:userId", verifyToken, async (req, res) => {
         if (req.user._id.toString() !== userId && req.user.role !== "Owner") {
             return res.status(403).json({ message: "Not authorized to view these bookings" });
         }
-
-        const bookings = await Booking.find({ userId }).populate({
-            path: 'apartmentId',
-            select: 'ApartmentName ApartmentPrice ApartmentCity ApartmentImg',
-        });
+     const bookings = await Booking.find({ userId });
 
         res.status(200).json(bookings);
     } catch (err) {
@@ -274,7 +270,23 @@ router.get("/user/:userId", verifyToken, async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
+router.get("/apartment/:apartmentId", verifyToken, async (req, res) => {
+  try {
+    const apartmentId = req.params.apartmentId;
+    const apartment = await Apartment.findById(apartmentId);
+    if (!apartment)
+      return res.status(404).json({ message: "Apartment not found" });
+    if (apartment.OwnerId.toString() !== req.user._id && req.user.role !== "Owner") {
+      return res.status(403).json({ message: "Not authorized to view these bookings" });
+    }
+    const bookings = await Booking.find({ apartmentId });
 
+    res.status(200).json(bookings);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+});
 /*
 router.delete('/:bookingId',verifyToken, async (req,res) => {
     try{
