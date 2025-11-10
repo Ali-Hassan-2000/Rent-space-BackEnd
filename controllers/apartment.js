@@ -256,7 +256,7 @@ catch (err) {
     res.status(500).json({message: err.message})
 }
 });
-router.get("/user/:userId", verifyToken, async (req, res) => {
+router.get("/userBookings/:userId", verifyToken, async (req, res) => {
     try {
         const userId = req.params.userId;
         if (req.user._id.toString() !== userId && req.user.role !== "Owner") {
@@ -270,7 +270,7 @@ router.get("/user/:userId", verifyToken, async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 });
-router.get("/apartment/:apartmentId", verifyToken, async (req, res) => {
+router.get("/apartmentBookings/:apartmentId", verifyToken, async (req, res) => {
   try {
     const apartmentId = req.params.apartmentId;
     const apartment = await Apartment.findById(apartmentId);
