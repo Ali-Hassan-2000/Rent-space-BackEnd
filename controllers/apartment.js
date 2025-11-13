@@ -44,7 +44,7 @@ router.post('/', verifyToken, authorizeRole('Owner'), upload.array('ApartmentImg
         console.log(createdApartment);
         res.status(201).json(createdApartment);
     } catch (err) {
-        console.error('Error creating apartment:', err); 
+        console.error('Error creating apartment:', err);  
         res.status(500).json({ err: err.message });
     }
 });
