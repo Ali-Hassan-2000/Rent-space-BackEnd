@@ -27,21 +27,21 @@ router.post('/', verifyToken, authorizeRole('Owner'), upload.array('ApartmentImg
 
         req.body.ApartmentImg = [];
         const ApartmenImages = req.files;
-        console.log(ApartmenImages);
+
         ApartmenImages.forEach(file => {
             req.body.ApartmentImg.push({
             url: file.path,
             cloudinary_id: file.filename
             });
         }); 
-        console.log(ApartmenImages);
+
 
         req.body.OwnerId = req.user._id;
-        console.log(req.body.OwnerId);
+
         req.body.BookingCalendar = [];
         
         const createdApartment = await Apartment.create(req.body);
-        console.log(createdApartment);
+
         res.status(201).json(createdApartment);
     } catch (err) {
         console.error("🔥 REAL SERVER ERROR:", err);
