@@ -24,30 +24,14 @@ router.get('/', async (req, res) => {
 // create apartment
 router.post('/', verifyToken, authorizeRole('Owner'), upload.array('ApartmentImg'), async (req, res) => {
     try {
-        req.body.BookingCalendar = [];
+        req.body.BookingCalendar = [];     
 
-        //req.body.ApartmentImg = [];
-        //const ApartmenImages = req.files;
-
-        //ApartmenImages.forEach(file => {
-        //    req.body.ApartmentImg.push({
-        //    url: file.path,
-        //    cloudinary_id: file.filename
-        //    });
-        //});
-        
-        console.log("BODY:", req.body);
-        console.log("FILES:", req.files);
-        
-
-        const files = req.files;
-        console.log(files);                             
+        const files = req.files;                           
 
         const images = files.map(file => ({
           url: file.path,
           cloudinary_id: file.filename 
         }));
-        console.log(images);
 
         const createdApartment = await Apartment.create({
           ApartmentName: req.body.ApartmentName,
@@ -61,7 +45,6 @@ router.post('/', verifyToken, authorizeRole('Owner'), upload.array('ApartmentImg
 
           OwnerId: req.user._id,
         });
-        console.log(createdApartment);
 
         res.status(201).json(createdApartment);
     } catch (err) {
