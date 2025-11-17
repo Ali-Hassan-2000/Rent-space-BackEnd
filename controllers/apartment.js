@@ -218,30 +218,33 @@ router.get('/city/:city', async (req, res) => {
 
 //-----------------Rating routes---------------------//
 
-router.put('/apartment/:apartmentId/rating', verifyToken , async (req, res)=> {
+router.put('/apartment/:apartmentId/rating', verifyToken ,
+    authorizeRole('Customer'),
+    async (req, res)=> {
 try {
-    const {apartmentId} = req.params;
-    const {rating} = req.body;
+    const rating = Number(req.body.ApartmentRating);
 
-    const numericRating = Number(rating);
-
-    if (![3, 4, 5].includes(numericRating)) {
+    if (![3, 4, 5].includes(rating)) {
         return res.status(400).json({err: 'Rating must be 3, 4, or 5'});
     }
 
-    const apartment = await Apartment.findById(apartmentId);
+    const FoundApartment = await Apartment.findById(req.params.apartmentId);
 
-    if (!apartment) {
+    if (!FoundApartment) {
         return res.status(404).json({err: 'Apartment not found'});
     }
 
-    apartment.ApartmentRating = numericRating;
+    FoundApartment.ApartmentRating = rating;
+    const updatedApartment = await FoundApartment.save();
 
-    const updatedApartment = await apartment.save();
     res.status(200).json(updatedApartment);
     } catch (err) {
-        res.status(500).json ({err: err.meassage});
+        if (res.statusCode === 404) {
+            res.json({err: err.meassage});
+        } else {
+        res.status(500).json ({err: err.message});
     }
+}
 });
 
 
