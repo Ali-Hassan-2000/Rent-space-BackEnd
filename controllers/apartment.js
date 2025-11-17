@@ -69,7 +69,7 @@ router.post('/', verifyToken, authorizeRole('Owner'), upload.array('ApartmentImg
 });
 
 //delete apartment
-router.delete('/apartment/:apartmentId', authorizeRole('Owner'), async (req, res) => {
+router.delete('/apartment/:apartmentId', verifyToken, authorizeRole('Owner'), async (req, res) => {
   
     try {
         
