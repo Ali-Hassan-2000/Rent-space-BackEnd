@@ -216,7 +216,32 @@ router.get('/city/:city', async (req, res) => {
   }
 });
 
+//-----------------Rating routes---------------------//
 
+router.patch('/apartment/:apartmentId/rating', verifyToken , async (req, res)=> {
+try {
+    const {rating} = req.body;
+
+    const numericRating = Number(rating);
+    const allowedRatings =[3, 4, 5];
+
+    if (!allowedRatings.includes(numericRating)) {
+        return res.status(400).json({message: 'Rating must be 3, 4, or 5'});
+    }
+
+    const apartment = await Apartment.findById(req.params.apartmentId);
+    if (!apartment) {
+        return res.status(404).json({meassage: 'Apartment not found'});
+    }
+
+    apartment.ApartmentRating = numericRating;
+    const updatedApartment = await apartment.save();
+
+    res.status(200).json(updatedApartment);
+    } catch (err) {
+        res.status(500).json ({message: err.meassage});
+    }
+});
 
 
 
