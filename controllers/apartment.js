@@ -239,16 +239,10 @@ try {
 
     res.status(200).json(updatedApartment);
     } catch (err) {
-        if (res.statusCode === 404) {
-            res.json({err: err.meassage});
-        } else {
         res.status(500).json ({err: err.message});
     }
 }
-});
-
-
-
+);
 
 
 //-----------------Booking routes---------------------//
