@@ -1,9 +1,11 @@
 const dotenv = require('dotenv');
+const path = require('path') // for photos
 
 dotenv.config();
 const express = require('express');
 
 const app = express();
+
 const mongoose = require('mongoose');
 const cors = require('cors');
 const logger = require('morgan');
@@ -17,6 +19,7 @@ const apartmentRouter = require('./controllers/apartment.js');
 
 // MiddleWare
 const verifyToken = require('./middleware/verify-token');
+const Apartment = require('./models/apartment.js');
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -24,16 +27,13 @@ mongoose.connection.on('connected', () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
-app.use(cors({ origin: 'http://localhost:5173' })); //port 5173 for API sorce
+app.use(cors({ origin: process.env.CORS_ORIGIN })); //port **** for API sorce
 app.use(express.json());
 app.use(logger('dev'));
 
-// home page will be public (change code from line  32-37)
-// Public
-app.use('/auth', authCtrl);
+app.use(express.static(path.join(__dirname, "public"))); // for photos
 
-// Protected Routes
-app.use(verifyToken);
+app.use('/auth', authCtrl);
 app.use('/users', usersCtrl);
 app.use('/apartments', apartmentRouter);
 
