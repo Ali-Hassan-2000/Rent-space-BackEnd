@@ -196,8 +196,17 @@ router.get('/apartment/:apartmentId', async (req, res) => {
     }
 });
 router.get("/owner/:ownerId", verifyToken, async (req, res) => {
-  const apartments = await Apartment.find({ ownerId: req.params.ownerId });
-  res.json(apartments);
+  try {
+    const ownerId = req.params.ownerId;
+    console.log("OWNER ID RECEIVED:", ownerId);
+    const apartments = await Apartment.find({ OwnerId: ownerId });
+
+    console.log("FOUND APARTMENTS:", apartments);
+
+    res.json(apartments);
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
 });
 
 // show city page

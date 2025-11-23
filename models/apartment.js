@@ -78,7 +78,7 @@ const apartmentSchema = new mongoose.Schema({
   
   OwnerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    ref: 'User',
   },
 });
 
